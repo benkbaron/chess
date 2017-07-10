@@ -3,9 +3,9 @@ require_relative 'stepping_piece'
 class King < Piece
   include SteppingPiece
 
-  def initialize(board, symbol, pos)
+  def initialize(board, pos)
     super
-    @symbol = symbol
+    @symbol = 'K'
     # if side == :white
     #   @current_pos = [0, 4]
     # else

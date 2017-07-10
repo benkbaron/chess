@@ -91,6 +91,6 @@ class Cursor
   def update_pos(diff)
     new_pos = [cursor_pos[0] + diff[0], cursor_pos[1] + diff[1]]
     @cursor_pos = new_pos
-    nil #unless board.out_of_bounds?(new_pos)
+    nil unless board.out_of_bounds?(new_pos)
   end
 end

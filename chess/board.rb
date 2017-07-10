@@ -3,6 +3,8 @@ require_relative 'Pieces/piece'
 require_relative 'Pieces/nullpiece'
 require_relative 'display'
 require_relative 'Pieces/king'
+require_relative 'Pieces/knight'
+require_relative 'Pieces/rook'
 
 class Board
   attr_reader :grid
@@ -17,7 +19,7 @@ class Board
         pos = [idx1, idx2]
         case idx1
         when 0, 1, 6, 7
-          self[pos] = King.new(self, 'K', pos)
+          self[pos] = Rook.new(self, pos)
         else
           self[pos] = NullPiece.new(self, pos)
         end
@@ -36,9 +38,9 @@ class Board
 
   def out_of_bounds?(pos)
     row, col = pos
-    return false if row < 0 || row > 7
-    return false if col < 0 || col > 7
-    true
+    return true if row < 0 || row > 7
+    return true if col < 0 || col > 7
+    false
   end
 
   def [](pos)

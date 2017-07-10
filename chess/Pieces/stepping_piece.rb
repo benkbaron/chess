@@ -8,6 +8,4 @@ module SteppingPiece
     end
   end
 
-
-
 end

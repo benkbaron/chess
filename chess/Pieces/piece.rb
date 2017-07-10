@@ -1,10 +1,9 @@
 class Piece
 
-  attr_reader :current_pos, :symbol
+  attr_reader :current_pos, :symbol, :board
 
-  def initialize(board, symbol, pos)
+  def initialize(board, pos)
     @board = board
-    @symbol = symbol
     @current_pos = pos
   end
 
