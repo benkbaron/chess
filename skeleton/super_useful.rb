@@ -38,10 +38,16 @@ end
 
 # PHASE 4
 class BestFriend
-  def initialize(name, yrs_known, fav_pastime)
+  def initialize(*args)
+    name = args[0]
+    yrs_known = args[1]
+    fav_pastime = args[2]
+    raise "Wrong number of arguments." if args.length < 3
+    raise "You don't know me." if yrs_known < 5
     @name = name
     @yrs_known = yrs_known
     @fav_pastime = fav_pastime
+
   end
 
   def talk_about_friendship
