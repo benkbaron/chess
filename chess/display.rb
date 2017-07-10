@@ -1,5 +1,6 @@
 require 'colorize'
 require_relative 'cursor'
+require_relative 'board'
 
 class Display
   def initialize(board)
@@ -14,9 +15,17 @@ class Display
       board.grid.each do |row|
         row.each do |square|
           if square.current_pos == cursor.cursor_pos
-            print square.value.colorize(:background => :light_blue)
+            if square.value.nil?
+              print " ".colorize(:background => :cyan)
+            else
+              print square.value.colorize(:background => :cyan)
+            end
           else
-            print square.value
+            if square.value.nil?
+              print " "
+            else
+              print square.value
+            end
           end
         end
         puts "\n"
@@ -27,4 +36,11 @@ class Display
   end
 
 
+end
+
+if __FILE__ == $PROGRAM_NAME
+  b = Board.new
+  b_display = Display.new(b)
+
+  b_display.render
 end

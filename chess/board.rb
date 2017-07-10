@@ -40,8 +40,8 @@ class Board
 
   def out_of_bounds?(pos)
     row, col = pos
-    return false unless row.between?(0, 7)
-    return false unless col.between?(0, 7)
+    return false if row < 0 || row > 7
+    return false if col < 0 || col > 7
     true
   end
 
