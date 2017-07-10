@@ -1,6 +1,7 @@
 require 'colorize'
 require_relative 'cursor'
 require_relative 'board'
+require 'byebug'
 
 class Display
   def initialize(board)
@@ -11,28 +12,37 @@ class Display
   attr_reader :cursor, :board
 
   def render
-    while true
-      board.grid.each do |row|
-        row.each do |square|
-          if square.current_pos == cursor.cursor_pos
-            if square.value.nil?
+    x = nil
+    loop do
+      # debugger
+      board.grid.each_with_index do |row, idx1|
+        row.each_with_index do |square, idx2|
+
+          if [idx1, idx2] == cursor.cursor_pos
+            if square.symbol.nil?
               print " ".colorize(:background => :cyan)
             else
-              print square.value.colorize(:background => :cyan)
+              print square.symbol.colorize(:background => :cyan)
             end
           else
-            if square.value.nil?
+            if square.symbol.nil?
               print " "
             else
-              print square.value
+              print square.symbol
             end
           end
         end
         puts "\n"
       end
-      cursor.get_input
+
+      x = cursor.get_input
+
       system "clear"
+      p "!!!!!!#{x}!!!!!!!"
+      break if x != nil
+
     end
+    x
   end
 
 

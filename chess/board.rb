@@ -1,6 +1,7 @@
 require 'byebug'
-require_relative 'piece'
-require_relative 'nullpiece'
+require_relative 'Pieces/piece'
+require_relative 'Pieces/nullpiece'
+require_relative 'display'
 
 class Board
   attr_reader :grid
@@ -14,12 +15,10 @@ class Board
       row.each_with_index do |square, idx2|
         pos = [idx1, idx2]
         case idx1
-        when 0 then self[pos] = Piece.new('P', pos)
-        when 1 then self[pos] = Piece.new('P', pos)
-        when 6 then self[pos] = Piece.new('P', pos)
-        when 7 then self[pos] = Piece.new('P', pos)
+        when 0, 1, 6, 7
+          self[pos] = Piece.new(self, 'P', pos)
         else
-          self[pos] = NullPiece.new(pos)
+          self[pos] = NullPiece.new(self, pos)
         end
       end
     end
@@ -50,12 +49,24 @@ class Board
     @grid[x][y]
   end
 
-  def []=(pos, value)
+  def []=(pos, piece)
     x, y = pos
-    @grid[x][y] = value
+    @grid[x][y] = piece
   end
 
 
 
 
+end
+
+
+
+if __FILE__ == $PROGRAM_NAME
+  board = Board.new
+  bd = Display.new(board)
+  loop do
+    start_pos = bd.render
+    end_pos = bd.render
+    board.move_piece(start_pos, end_pos)
+  end
 end
