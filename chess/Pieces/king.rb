@@ -1,13 +1,16 @@
-class King < Piece
+require_relative 'stepping_piece'
 
-  def initialize(board, side)
+class King < Piece
+  include SteppingPiece
+
+  def initialize(board, symbol, pos)
     super
-    @symbol = "K"
-    if side == :white
-      @current_pos = [0, 4]
-    else
-      @current_pos = [7, 4]
-    end
+    @symbol = symbol
+    # if side == :white
+    #   @current_pos = [0, 4]
+    # else
+    #   @current_pos = [7, 4]
+    # end
   end
 
 
@@ -18,13 +21,17 @@ class King < Piece
     [1,-1],
     [-1,1],
     [-1,0],
-    [-1,-1]
+    [-1,-1],
     [0,-1]
   ]
 
+  #
+  # def move_diffs
+  #   possible_moves = moves
+  # end
 
-  def move_diffs
-    
+  def valid_move?(end_pos)
+    moves(DELTAS).include?(end_pos)
   end
 
 end

@@ -2,6 +2,7 @@ require 'byebug'
 require_relative 'Pieces/piece'
 require_relative 'Pieces/nullpiece'
 require_relative 'display'
+require_relative 'Pieces/king'
 
 class Board
   attr_reader :grid
@@ -16,7 +17,7 @@ class Board
         pos = [idx1, idx2]
         case idx1
         when 0, 1, 6, 7
-          self[pos] = Piece.new(self, 'P', pos)
+          self[pos] = King.new(self, 'K', pos)
         else
           self[pos] = NullPiece.new(self, pos)
         end
@@ -25,12 +26,8 @@ class Board
   end
 
   def move_piece(start_pos, end_pos)
-    begin
-      raise "Piece nonexistant" if self[start_pos].class == NullPiece
-      raise "Invalid end position" if out_of_bounds?(end_pos)
-    rescue
-      # Ask again
-    end
+    raise "Piece nonexistant" if self[start_pos].class == NullPiece
+    raise "Invalid end position" unless self[start_pos].valid_move?(end_pos)
 
     self[end_pos], self[start_pos] = self[start_pos], self[end_pos]
     self[end_pos].new_position(end_pos)

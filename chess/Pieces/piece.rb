@@ -3,8 +3,9 @@ class Piece
   attr_reader :current_pos, :symbol
 
   def initialize(board, symbol, pos)
-    @current_pos = pos
+    @board = board
     @symbol = symbol
+    @current_pos = pos
   end
 
   def move_dirs
