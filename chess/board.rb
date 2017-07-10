@@ -5,6 +5,8 @@ require_relative 'display'
 require_relative 'Pieces/king'
 require_relative 'Pieces/knight'
 require_relative 'Pieces/rook'
+require_relative 'Pieces/bishop'
+require_relative 'Pieces/queen'
 
 class Board
   attr_reader :grid
@@ -19,7 +21,7 @@ class Board
         pos = [idx1, idx2]
         case idx1
         when 0, 1, 6, 7
-          self[pos] = Rook.new(self, pos)
+          self[pos] = Queen.new(self, pos)
         else
           self[pos] = NullPiece.new(self, pos)
         end
