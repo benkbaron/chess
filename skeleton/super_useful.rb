@@ -10,10 +10,21 @@ end
 FRUITS = ["apple", "banana", "orange"]
 
 def reaction(maybe_fruit)
-  if FRUITS.include? maybe_fruit
-    puts "OMG, thanks so much for the #{maybe_fruit}!"
-  else
-    raise StandardError
+  begin
+    if FRUITS.include? maybe_fruit
+      puts "OMG, thanks so much for the #{maybe_fruit}!"
+    else
+
+      raise StandardError
+    end
+  rescue StandardError => e
+    if maybe_fruit == "coffee"
+      puts "Thanks, but I want a fruit. Try again:"
+      maybe_fruit = gets.chomp
+      retry
+    else
+      puts "Go away."
+    end
   end
 end
 
