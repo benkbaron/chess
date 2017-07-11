@@ -1,12 +1,13 @@
 require 'byebug'
+require_relative 'display'
 require_relative 'Pieces/piece'
 require_relative 'Pieces/nullpiece'
-require_relative 'display'
 require_relative 'Pieces/king'
 require_relative 'Pieces/knight'
 require_relative 'Pieces/rook'
 require_relative 'Pieces/bishop'
 require_relative 'Pieces/queen'
+require_relative 'Pieces/pawn'
 
 class Board
   attr_reader :grid
@@ -20,10 +21,13 @@ class Board
       row.each_with_index do |square, idx2|
         pos = [idx1, idx2]
         case idx1
-        when 0, 1, 6, 7
-          self[pos] = Queen.new(self, pos)
+        when 0, 1
+          self[pos] = Pawn.new(self, pos, :white)
+        when 6, 7
+          self[pos] = Pawn.new(self, pos, :black)
         else
-          self[pos] = NullPiece.new(self, pos)
+          # debugger
+          self[pos] = NullPiece.instance#(self, pos, :null)
         end
       end
     end

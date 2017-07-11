@@ -1,9 +1,11 @@
 require_relative 'piece'
+require 'singleton'
 
 class NullPiece < Piece
+  include Singleton
 
-  def initialize(board, current_pos = nil)
-    super(board, current_pos)
+  def initialize
+    @symbol = "_"
   end
 
 

@@ -14,22 +14,12 @@ class Display
   def render
     x = nil
     loop do
-      # debugger
       board.grid.each_with_index do |row, idx1|
         row.each_with_index do |square, idx2|
-
           if [idx1, idx2] == cursor.cursor_pos
-            if square.symbol.nil?
-              print " ".colorize(:background => :cyan)
-            else
-              print square.symbol.colorize(:background => :cyan)
-            end
+            print square.symbol.colorize(:background => :cyan)
           else
-            if square.symbol.nil?
-              print " "
-            else
-              print square.symbol
-            end
+            print square.symbol
           end
         end
         puts "\n"
