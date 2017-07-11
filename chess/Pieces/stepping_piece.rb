@@ -1,10 +1,12 @@
 module SteppingPiece
 
   def moves(deltas)
-    move_arr = deltas.map do |delta|
+    move_arr = []
+    deltas.each do |delta|
       dx, dy = delta
       x, y = current_pos
-      [dx + x, dy + y]
+      new_pos = [dx + x, dy + y]
+      move_arr << new_pos unless board.out_of_bounds?(new_pos)
     end
     filter_moves(move_arr)
   end

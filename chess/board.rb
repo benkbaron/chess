@@ -41,7 +41,14 @@ class Board
     self[end_pos], self[start_pos] = self[start_pos], self[end_pos]
     self[end_pos].new_position(end_pos)
     self[start_pos].new_position(start_pos)
+    self[start_pos] = NullPiece.instance if taking_piece?(start_pos)
   end
+
+
+
+def taking_piece?(pos)
+  self[pos].class != NullPiece
+end
 
   def out_of_bounds?(pos)
     row, col = pos
@@ -80,7 +87,7 @@ class Board
   end
 
   def setup_null_row
-    (0..7).map { |col_idx| NullPiece.instance}
+    (0..7).map { |col_idx| NullPiece.instance }
   end
 
 
