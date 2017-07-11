@@ -15,7 +15,7 @@ class Board
 
   attr_reader :grid
   def initialize
-    @grid = Array.new(8) {Array.new(8)}
+    @grid ||= Array.new(8) {Array.new(8)}
     set_board
   end
 
@@ -108,6 +108,8 @@ if __FILE__ == $PROGRAM_NAME
   system "clear"
   loop do
     begin
+      board.in_check?(:white)
+    
       start_pos = bd.render
       end_pos = bd.render
       board.move_piece(start_pos, end_pos)
