@@ -39,8 +39,8 @@ class Board
   def move_piece(start_pos, end_pos)
     raise ChessError.new("Piece nonexistant") if self[start_pos].class == NullPiece
     raise ChessError.new("Invalid end position") unless self[start_pos].valid_move?(end_pos)
-    raise ChessError.new("You are in check") if in_check_on_copy?(start_pos, end_pos) && self.in_check?(:white)
-
+    raise ChessError.new("You must move out of check") if in_check_on_copy?(start_pos, end_pos) && self.in_check?(:white)
+    raise ChessError.new("You cannot move into check") if in_check_on_copy?(start_pos, end_pos)
     self.make_move(start_pos, end_pos)
   end
 
