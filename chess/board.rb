@@ -36,17 +36,25 @@ class Board
     end
   end
 
-
-
   def move_piece(start_pos, end_pos)
     raise ChessError.new("Piece nonexistant") if self[start_pos].class == NullPiece
     raise ChessError.new("Invalid end position") unless self[start_pos].valid_move?(end_pos)
-    #if you are in check:
-    # raise CheckError unless new_move => not in check
+    raise ChessError.new("You are in check") if in_check_on_copy?(start_pos, end_pos) && self.in_check?(:white)
+
+    self.make_move(start_pos, end_pos)
+  end
+
+  def make_move(start_pos, end_pos)
     self[end_pos], self[start_pos] = self[start_pos], self[end_pos]
     self[end_pos].new_position(end_pos)
     self[start_pos].new_position(start_pos)
     self[start_pos] = NullPiece.instance if taking_piece?(start_pos)
+  end
+
+  def in_check_on_copy?(start_pos, end_pos)
+    copy_board = Board.dup_board(self)
+    copy_board.make_move(start_pos, end_pos)
+    copy_board.in_check?(:white)
   end
 
   def self.dup_board(current_board)
@@ -56,7 +64,7 @@ class Board
         if square.class == NullPiece
           new_board[[idx1, idx2]] = NullPiece.instance
         else
-          new_board[[idx1, idx2]] = square.dup
+          new_board[[idx1, idx2]] = square.class.new(new_board, [idx1, idx2], square.color)
         end
       end
     end
@@ -114,13 +122,15 @@ end
 class ChessError < StandardError
 end
 
+class CheckError < StandardError
+end
+
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
   bd = Display.new(board)
   system "clear"
   loop do
     begin
-      board.in_check?(:white)
       start_pos = bd.render
       end_pos = bd.render
       board.move_piece(start_pos, end_pos)

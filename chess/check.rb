@@ -29,7 +29,6 @@ module Check
       row.each do |square|
         if square.color == opponent_color
           if square.valid_move?(king_location)
-            puts "You're in check!"
             return true
           end
         end
