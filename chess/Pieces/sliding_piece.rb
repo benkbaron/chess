@@ -22,9 +22,5 @@ module SlidingPiece
     end
     move_arr
   end
-
-
-
-
-
+  
 end

@@ -14,7 +14,7 @@ class Display
   def render
     x = nil
     loop do
-      checker = 0
+      checker = 1
       board.grid.each_with_index do |row, idx1|
         checker += 1
         row.each_with_index do |square, idx2|
@@ -52,7 +52,6 @@ class Display
       x = cursor.get_input
 
       system "clear"
-      p "!!!!!!#{x}!!!!!!!"
       break if x != nil
 
     end

@@ -14,5 +14,5 @@ module SteppingPiece
   def filter_moves(move_arr)
     move_arr.reject { |pos| board[pos].color == self.color }
   end
-
+  
 end

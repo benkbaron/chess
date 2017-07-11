@@ -8,10 +8,6 @@ class Piece
     @color = color
   end
 
-  def move_dirs
-
-  end
-
   def new_position(pos)
     @current_pos = pos
   end

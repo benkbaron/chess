@@ -26,9 +26,9 @@ module Check
     king_location = find_king(color)
     opponent_color = color == :white ? :black : :white
     grid.each do |row|
-      row.each do |square|
-        if square.color == opponent_color
-          if square.valid_move?(king_location)
+      row.each do |piece|
+        if piece.color == opponent_color
+          if piece.valid_move?(king_location)
             return true
           end
         end
