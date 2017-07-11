@@ -93,6 +93,7 @@ end
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
   bd = Display.new(board)
+  system "clear"
   loop do
     begin
       start_pos = bd.render
