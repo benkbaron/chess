@@ -8,8 +8,11 @@ require_relative 'Pieces/knight'
 require_relative 'Pieces/rook'
 require_relative 'Pieces/bishop'
 require_relative 'Pieces/pawn'
+require_relative 'check.rb'
 
 class Board
+  include Check
+
   attr_reader :grid
   def initialize
     @grid = Array.new(8) {Array.new(8)}
@@ -38,6 +41,8 @@ class Board
   def move_piece(start_pos, end_pos)
     raise ChessError.new("Piece nonexistant") if self[start_pos].class == NullPiece
     raise ChessError.new("Invalid end position") unless self[start_pos].valid_move?(end_pos)
+    #if you are in check:
+    # raiuse CheckError unless new_move => not in check
     self[end_pos], self[start_pos] = self[start_pos], self[end_pos]
     self[end_pos].new_position(end_pos)
     self[start_pos].new_position(start_pos)

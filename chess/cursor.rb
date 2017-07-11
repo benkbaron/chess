@@ -93,4 +93,5 @@ class Cursor
     @cursor_pos = new_pos
     nil unless board.out_of_bounds?(new_pos)
   end
-end
+
+end #class end!

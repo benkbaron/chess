@@ -20,15 +20,4 @@ class Piece
     @symbol
   end
 
-  def valid_moves()
-
-  end
-
-  private
-
-  def move_into_check(to_pos)
-
-  end
-
-
 end
