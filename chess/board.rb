@@ -3,10 +3,10 @@ require_relative 'display'
 require_relative 'Pieces/piece'
 require_relative 'Pieces/nullpiece'
 require_relative 'Pieces/king'
+require_relative 'Pieces/queen'
 require_relative 'Pieces/knight'
 require_relative 'Pieces/rook'
 require_relative 'Pieces/bishop'
-require_relative 'Pieces/queen'
 require_relative 'Pieces/pawn'
 
 class Board
@@ -17,26 +17,27 @@ class Board
   end
 
   def set_board
-    @grid.each_with_index do |row, idx1|
-      row.each_with_index do |square, idx2|
-        pos = [idx1, idx2]
-        case idx1
-        when 0, 1
-          self[pos] = Pawn.new(self, pos, :white)
-        when 6, 7
-          self[pos] = Pawn.new(self, pos, :black)
-        else
-          # debugger
-          self[pos] = NullPiece.instance#(self, pos, :null)
-        end
+    @grid.each_with_index do |row, idx|
+      case idx
+      when 0
+        @grid[idx] = setup_back_row(:white, idx)
+      when 1
+        @grid[idx] = setup_pawn_row(:white, idx)
+      when 6
+        @grid[idx] = setup_pawn_row(:black, idx)
+      when 7
+        @grid[idx] = setup_back_row(:black, idx)
+      else
+        @grid[idx] = setup_null_row
       end
     end
   end
 
-  def move_piece(start_pos, end_pos)
-    raise "Piece nonexistant" if self[start_pos].class == NullPiece
-    raise "Invalid end position" unless self[start_pos].valid_move?(end_pos)
 
+
+  def move_piece(start_pos, end_pos)
+    raise ChessError.new("Piece nonexistant") if self[start_pos].class == NullPiece
+    raise ChessError.new("Invalid end position") unless self[start_pos].valid_move?(end_pos)
     self[end_pos], self[start_pos] = self[start_pos], self[end_pos]
     self[end_pos].new_position(end_pos)
     self[start_pos].new_position(start_pos)
@@ -59,19 +60,47 @@ class Board
     @grid[x][y] = piece
   end
 
+  private
+
+  def setup_pawn_row(color, row_idx)
+    (0..7).map { |col_idx| Pawn.new(self, [row_idx, col_idx], color) }
+  end
+
+  def setup_back_row(color, row_idx)
+    (0..7).map do |col_idx|
+      args = [self, [row_idx, col_idx], color]
+      case col_idx
+      when 0, 7 then Rook.new(*args)
+      when 1, 6 then Knight.new(*args)
+      when 2, 5 then Bishop.new(*args)
+      when 3 then King.new(*args)
+      when 4 then Queen.new(*args)
+      end
+    end
+  end
+
+  def setup_null_row
+    (0..7).map { |col_idx| NullPiece.instance}
+  end
 
 
 
 end
 
-
+class ChessError < StandardError
+end
 
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
   bd = Display.new(board)
   loop do
-    start_pos = bd.render
-    end_pos = bd.render
-    board.move_piece(start_pos, end_pos)
+    begin
+      start_pos = bd.render
+      end_pos = bd.render
+      board.move_piece(start_pos, end_pos)
+    rescue ChessError => e
+      puts e.message
+    retry
+  end
   end
 end

@@ -3,7 +3,7 @@ require_relative 'sliding_piece'
 class Queen < Piece
   include SlidingPiece
 
-  def initialize(board, pos)
+  def initialize(board, pos, color)
     super
     @symbol = 'Q'
     # if side == :white

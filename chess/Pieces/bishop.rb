@@ -3,7 +3,7 @@ require_relative 'sliding_piece'
 class Bishop < Piece
   include SlidingPiece
 
-  def initialize(board, pos)
+  def initialize(board, pos, color)
     super
     @symbol = 'B'
     # if side == :white

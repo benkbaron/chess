@@ -19,7 +19,13 @@ class Display
           if [idx1, idx2] == cursor.cursor_pos
             print square.symbol.colorize(:background => :cyan)
           else
-            print square.symbol
+            if square.color == :white
+              print square.symbol.colorize(:color => :red)
+            elsif square.color == :black
+              print square.symbol.colorize(:color => :blue)
+            else
+              print square.symbol
+            end
           end
         end
         puts "\n"
