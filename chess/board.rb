@@ -42,18 +42,30 @@ class Board
     raise ChessError.new("Piece nonexistant") if self[start_pos].class == NullPiece
     raise ChessError.new("Invalid end position") unless self[start_pos].valid_move?(end_pos)
     #if you are in check:
-    # raiuse CheckError unless new_move => not in check
+    # raise CheckError unless new_move => not in check
     self[end_pos], self[start_pos] = self[start_pos], self[end_pos]
     self[end_pos].new_position(end_pos)
     self[start_pos].new_position(start_pos)
     self[start_pos] = NullPiece.instance if taking_piece?(start_pos)
   end
 
+  def self.dup_board(current_board)
+    new_board = Board.new
+    current_board.grid.each_with_index do |row, idx1|
+      row.each_with_index do |square, idx2|
+        if square.class == NullPiece
+          new_board[[idx1, idx2]] = NullPiece.instance
+        else
+          new_board[[idx1, idx2]] = square.dup
+        end
+      end
+    end
+    new_board
+  end
 
-
-def taking_piece?(pos)
-  self[pos].class != NullPiece
-end
+  def taking_piece?(pos)
+    self[pos].class != NullPiece
+  end
 
   def out_of_bounds?(pos)
     row, col = pos
@@ -109,7 +121,6 @@ if __FILE__ == $PROGRAM_NAME
   loop do
     begin
       board.in_check?(:white)
-    
       start_pos = bd.render
       end_pos = bd.render
       board.move_piece(start_pos, end_pos)

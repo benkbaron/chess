@@ -38,29 +38,4 @@ module Check
     false
   end
 
-
-
-  # def self.dup_board(grid)
-  #   new_board = []
-  #   grid.each do |el|
-  #     if el.is_a?(Array)
-  #       new_board << Check.dup_board(el)
-  #     else
-  #       new_board << el
-  #     end
-  #   end
-  #   new_board
-  # end
-
 end #module end
-
-if __FILE__ == $PROGRAM_NAME
-  board = Board.new
-  board2 = Check.dup_board(board.grid)
-  p board
-  p board2
-  board2[0][0] = "!!!!!!!!!!!!!!"
-  p board
-  p board2
-
-end
